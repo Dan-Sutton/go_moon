@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  late double _deviceHeight, _deviceWidth;
+  HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidth = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      body: _pageTitle(),
+      body: SafeArea(
+        child: Container(
+          height: _deviceHeight,
+          width: _deviceWidth,
+          padding: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.05),
+          child: _destinationDropDownWidget(),
+        ),
+      ),
     );
   }
 
@@ -14,7 +25,7 @@ class HomePage extends StatelessWidget {
     return const Text(
       "#GOMOON",
       style: TextStyle(
-          color: Colors.white, fontSize: 70, fontWeight: FontWeight.w800),
+          color: Colors.white, fontSize: 60, fontWeight: FontWeight.w800),
     );
   }
 
@@ -24,6 +35,22 @@ class HomePage extends StatelessWidget {
           image: DecorationImage(
               fit: BoxFit.contain,
               image: AssetImage("assets/images/astro_moon.png"))),
+    );
+  }
+
+  Widget _destinationDropDownWidget() {
+    List<DropdownMenuItem<String>> _items =
+        ["Test Test", "AnotherOne", "A third!"].map((e) {
+      return DropdownMenuItem(
+        child: Text(e),
+        value: e,
+      );
+    }).toList();
+    return Container(
+      child: DropdownButton(
+        onChanged: (_) {},
+        items: _items,
+      ),
     );
   }
 }
